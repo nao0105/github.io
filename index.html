@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nao's portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --accent: #38bdf8;
+    }
+
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: linear-gradient(to bottom, #1e293b, #0f172a);
+    }
+
+    h1 {
+      font-family: 'Space+Grotesk', sans-serif;
+      font-size: 3rem;
+      margin: 0;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h2 {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: 1fr; /* 1カラムで作品を大きく見せる */
+      gap: 4rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .project-info {
+      padding: 1.5rem 2rem;
+    }
+
+    .project-info h3 {
+      margin-top: 0;
+      color: var(--accent);
+    }
+
+    /* 作品を埋め込むエリアのスタイル */
+    .demo-container {
+      width: 100%;
+      height: 500px; /* ゲームの高さに合わせて調整 */
+      background: #000;
+      border: none;
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      padding: 4rem 0;
+      opacity: 0.6;
+      font-size: 0.9rem;
+    }
+
+    /* レスポンシブ対応 */
+    @media (max-width: 768px) {
+      .demo-container { height: 400px; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>nao's portfolio</h1>
+    <p>JavaScriptで作ったミニゲーム作品集</p>
+  </header>
+
+  <div class="container">
+    <section id="work">
+      <h2>Selected Projects</h2>
+      
+      <div class="projects">
+        
+        <article class="project-card">
+          <div class="project-info">
+            <h3>01. エイム練習ソフト</h3>
+            <p>HTML5 Canvasを使用したトレーニングツール。クリック精度と反応速度を測定します。</p>
+          </div>
+          <iframe src="aim-trainer.html" class="demo-container"></iframe>
+        </article>
+
+        <article class="project-card">
+          <div class="project-info">
+            <h3>02. マルバツゲーム</h3>
+            <p>スタイリッシュなデザインの二人対戦用マルバツゲーム。スコア記録機能を搭載しています。</p>
+          </div>
+          <iframe src="tic-tac-toe.html" class="demo-container"></iframe>
+        </article>
+
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>© 2024 nao's portfolio</p>
+  </footer>
+
+</body>
+</html>
