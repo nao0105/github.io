@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* テンプレートの基本スタイル (styles.css相当) */
+    /* 統合デザインスタイル */
     :root {
       --bg: #0b0f1a;
       --card-bg: rgba(255, 255, 255, 0.03);
@@ -27,7 +27,7 @@
       line-height: 1.5;
     }
 
-    /* 背景の装飾 */
+    /* 背景アニメーション装飾 */
     .bg-shapes {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -67,14 +67,8 @@
     /* ヒーローセクション */
     .hero { padding: 8rem 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
     .eyebrow { color: var(--accent); font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; margin-bottom: 1rem; }
-    h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1.1; margin: 0 0 1.5rem 0; }
-    .lede { color: var(--text-muted); font-size: 1.25rem; max-width: 600px; margin: 0 auto 2.5rem; }
-
-    /* ボタン */
-    .cta { display: inline-block; padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 500; transition: 0.3s; border: 1px solid transparent; }
-    .cta.solid { background: var(--text); color: var(--bg); }
-    .cta.outline { border-color: var(--border); color: var(--text); margin-left: 1rem; }
-    .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.2rem, 7vw, 4rem); line-height: 1.2; margin: 0 0 1.5rem 0; }
+    .lede { color: var(--text-muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto 2.5rem; }
 
     /* セクション全体 */
     .section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
@@ -94,7 +88,7 @@
       align-items: center;
     }
     .project-meta h3 { font-size: 1.8rem; margin: 0.5rem 0; }
-    .tags { display: flex; gap: 0.5rem; margin-top: 1rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
     .tags span { font-size: 0.75rem; padding: 0.3rem 0.8rem; background: rgba(255,255,255,0.05); border-radius: 50px; color: var(--text-muted); }
 
     /* 埋め込み用フレーム */
@@ -109,7 +103,8 @@
     .demo-frame { width: 100%; height: 100%; border: none; }
 
     @media (max-width: 900px) {
-      .project-card { grid-template-columns: 1fr; }
+      .project-card { grid-template-columns: 1fr; padding: 1.5rem; }
+      .project-visual { height: 320px; }
     }
   </style>
 </head>
@@ -127,35 +122,44 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
-    <a class="cta outline" style="padding: 0.5rem 1.2rem; font-size: 0.8rem;" href="#contact">Get in touch</a>
   </header>
 
   <main>
     <section class="hero">
       <p class="eyebrow">Portfolio 2024</p>
-      <h1>Crafting digital experiences with JavaScript.</h1>
-      <p class="lede">JavaScriptとHTML5 Canvasを駆使し、直感的で楽しいインタラクションを形にします。</p>
-      <div class="hero-actions">
-        <a class="cta solid" href="#work">View work</a>
-        <a class="cta outline" href="#contact">Contact me</a>
-      </div>
+      <h1>Creating interactive digital worlds with code.</h1>
+      <p class="lede">JavaScriptとHTML5 Canvasを活用し、遊び心のあるインタラクティブなエクスペリエンスを開発しています。</p>
     </section>
 
     <section id="work" class="section">
       <div class="section-heading">
         <p class="eyebrow">Selected Work</p>
         <h2>Recent projects</h2>
-        <p class="description">ロジックからUIデザインまで、こだわりを持って開発したJavaScript作品です。</p>
+        <p class="description">一からスクリプトを記述し、ロジックを構築したゲーム作品集です。</p>
       </div>
 
       <div class="projects">
         <article class="project-card">
           <div class="project-meta">
-            <p class="eyebrow">Game / Training</p>
-            <h3>Aim Trainer</h3>
-            <p>HTML5 Canvasを使用したクリック精度のトレーニングツール。動的なターゲット生成とリアルタイムのスコアリングを実装。</p>
+            <p class="eyebrow">Retro Game</p>
+            <h3>Space Invaders</h3>
+            <p>名作アーケードゲームのロジックを再現。敵の移動アルゴリズムと当たり判定、リアルタイムの描画処理を自作。</p>
             <div class="tags">
-              <span>Canvas API</span><span>JavaScript</span><span>UX</span>
+              <span>Canvas API</span><span>JavaScript</span><span>Animation</span>
+            </div>
+          </div>
+          <div class="project-visual">
+            <iframe src="invader.html" class="demo-frame"></iframe>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-meta">
+            <p class="eyebrow">Training Tool</p>
+            <h3>Aim Trainer</h3>
+            <p>FPSプレイヤー向けのエイム練習ツール。ターゲットのランダム生成と、クリック精度・反応速度の測定機能を実装。</p>
+            <div class="tags">
+              <span>Math.hypot</span><span>JavaScript</span><span>UX</span>
             </div>
           </div>
           <div class="project-visual">
@@ -165,11 +169,11 @@
 
         <article class="project-card">
           <div class="project-meta">
-            <p class="eyebrow">Interactive / Game</p>
-            <h3>Tic-Tac-Toe</h3>
-            <p>ネオン調のビジュアルとスムーズなアニメーションを重視したマルバツゲーム。勝敗判定ロジックとスコア保存機能を搭載。</p>
+            <p class="eyebrow">Traditional Game</p>
+            <h3>マルバツゲーム</h3>
+            <p>モダンなUIとインタラクションを融合させたマルバツゲーム。勝利パターンの判定ロジックと、対戦スコア管理機能を搭載。</p>
             <div class="tags">
-              <span>HTML5</span><span>CSS3</span><span>Logic</span>
+              <span>CSS Grid</span><span>Logic</span><span>State Management</span>
             </div>
           </div>
           <div class="project-visual">
@@ -179,26 +183,18 @@
       </div>
     </section>
 
-    <section id="about" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">About</p>
-        <h2>Approach</h2>
-        <p class="description">コードによって「触り心地の良さ」を追求することを得意としています。</p>
-      </div>
-    </section>
-
     <section id="contact" class="section">
-      <div style="background: var(--card-bg); border: 1px solid var(--border); padding: 4rem; border-radius: 32px; text-align: center;">
+      <div style="background: var(--card-bg); border: 1px solid var(--border); padding: 4rem 2rem; border-radius: 32px; text-align: center;">
         <p class="eyebrow">Contact</p>
-        <h2>Let’s build something together</h2>
-        <p style="margin-bottom: 2rem;">新しいプロジェクトや技術的な挑戦について、ぜひお話ししましょう。</p>
-        <a class="cta solid" href="mailto:hello@example.com">Email me</a>
+        <h2>Get in touch</h2>
+        <p style="margin-bottom: 2rem; color: var(--text-muted);">新しいアイデアやコラボレーションのご相談はこちらまで。</p>
+        <a href="mailto:hello@example.com" style="background: var(--text); color: var(--bg); padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: 600;">Email Me</a>
       </div>
     </section>
   </main>
 
-  <footer class="site-header" style="justify-content: center; padding: 4rem;">
-    <p style="color: var(--text-muted); font-size: 0.8rem;">© 2024 nao's portfolio — Designed & built with care.</p>
+  <footer style="text-align: center; padding: 4rem; opacity: 0.5; font-size: 0.8rem;">
+    <p>© 2024 nao's portfolio — Designed with care.</p>
   </footer>
 </body>
 </html>
