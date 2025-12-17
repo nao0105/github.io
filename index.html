@@ -4,193 +4,211 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>nao's portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Manrope:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #ffffff;
-      --text: #1a1a1a;
-      --text-muted: #666666;
-      --accent: #007aff;
-      --card-bg: #f8f9fa;
-      --border: #eceef0;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Manrope', sans-serif;
+    /* 基本設定 */
+    * {
       margin: 0;
-      line-height: 1.6;
+      padding: 0;
+      box-sizing: border-box;
     }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #fff;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { text-decoration: none; color: inherit; }
 
-    /* ヘッダー：文字のみでミニマルに */
-    .site-header {
-      padding: 2rem;
+    /* ヘッダー */
+    header {
+      padding: 2rem 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1100px;
-      margin: 0 auto;
+      background: rgba(26, 26, 46, 0.8);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .logo {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 1.2rem;
-      letter-spacing: -0.02em;
+      font-size: 1.8rem;
+      font-weight: bold;
+      background: linear-gradient(to right, #e94560, #a8d8ea);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    /* ヒーロー：余白を活かしたデザイン */
+    /* ヒーローセクション */
     .hero {
-      padding: 6rem 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: left;
+      text-align: center;
+      padding: 5rem 1rem;
     }
-
-    .eyebrow {
-      color: var(--accent);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
+    .hero h1 {
+      font-size: 3.5rem;
       margin-bottom: 1rem;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #a8d8ea;
+      margin-bottom: 2rem;
     }
 
-    h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      line-height: 1.2;
-      margin: 0;
-      font-weight: 500;
-      letter-spacing: -0.03em;
-    }
-
-    /* 作品セクション */
-    .section {
-      padding: 4rem 2rem;
-      max-width: 1100px;
+    /* 作品グリッド */
+    .container {
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 2rem;
     }
-
     .projects-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 6rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
     }
 
-    .project-card {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 3rem;
-      align-items: start;
-    }
-
-    .project-info h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem;
-      margin: 0 0 1rem 0;
-    }
-
-    .project-info p {
-      color: var(--text-muted);
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .tag-list {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .tag {
-      font-size: 0.75rem;
-      padding: 0.2rem 0.6rem;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      color: var(--text-muted);
-    }
-
-    /* 埋め込みエリア：枠線を消して一体感を出す */
-    .project-visual {
-      width: 100%;
-      height: 450px;
-      border-radius: 12px;
+    /* 作品カード */
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
-
-    .demo-frame {
-      width: 100%;
-      height: 100%;
-      border: none;
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border-color: #e94560;
     }
-
-    footer {
-      padding: 4rem 2rem;
+    
+    /* サムネイル（CSSでアイコン表現） */
+    .card-thumb {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    .card-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    .card-desc {
+      font-size: 0.95rem;
+      color: #ccc;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+    
+    /* プレイボタン */
+    .play-btn {
+      display: inline-block;
       text-align: center;
-      border-top: 1px solid var(--border);
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      padding: 0.8rem;
+      background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+      color: white;
+      border-radius: 50px;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    .play-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(233, 69, 96, 0.6);
     }
 
-    @media (max-width: 850px) {
-      .project-card { grid-template-columns: 1fr; gap: 1.5rem; }
-      .project-visual { height: 350px; }
+    /* 各カードごとのアイコン色 */
+    .thumb-marubatsu { color: #e94560; }
+    .thumb-aim { color: #4cd137; }
+    .thumb-invader { color: #fbc531; }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 3rem;
+      margin-top: 3rem;
+      color: rgba(255, 255, 255, 0.5);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <header class="site-header">
+  <header>
     <div class="logo">nao's portfolio</div>
   </header>
 
-  <main>
-    <section class="hero">
-      <p class="eyebrow">JavaScript Projects</p>
-      <h1>Minimal interaction, <br>Intentional code.</h1>
-    </section>
+  <section class="hero">
+    <h1>Game Works</h1>
+    <p>JavaScriptとHTML5 Canvasで制作したWebゲームコレクション</p>
+  </section>
 
-    <section class="section">
-      <div class="projects-grid">
-        
-        <article class="project-card">
-          <div class="project-info">
-            <h2>Aim Trainer</h2>
-            <p>Canvasを使用したエイム練習ツール。30秒間で正確にターゲットを撃ち抜くロジックを実装しています。</p>
-            <div class="tag-list">
-              <span class="tag">JavaScript</span>
-              <span class="tag">Canvas</span>
-            </div>
-          </div>
-          <div class="project-visual">
-            <iframe src="aim-trainer.html" class="demo-frame"></iframe>
-          </div>
-        </article>
+  <div class="container">
+    <div class="projects-grid">
 
-        <article class="project-card">
-          <div class="project-info">
-            <h2>Tic-Tac-Toe</h2>
-            <p>ネオンカラーのUIを持つマルバツゲーム。勝敗判定アルゴリズムとスコア管理を搭載しています。</p>
-            <div class="tag-list">
-              <span class="tag">UI Design</span>
-              <span class="tag">Game Logic</span>
-            </div>
-          </div>
-          <div class="project-visual">
-            <iframe src="tic-tac-toe.html" class="demo-frame"></iframe>
-          </div>
-        </article>
+      <article class="card">
+        <div class="card-thumb thumb-marubatsu">
+          X / O
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">マルバツゲーム</h3>
+          <p class="card-desc">
+            ネオン風のデザインを取り入れたスタイリッシュな三目並べ。
+            DOM操作による盤面描画と、勝敗判定ロジックを実装しています。
+          </p>
+          <a href="マルバツゲーム.html" class="play-btn">Play Game</a>
+        </div>
+      </article>
 
-      </div>
-    </section>
-  </main>
+      <article class="card">
+        <div class="card-thumb thumb-aim">
+          🎯
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">エイム練習ソフト</h3>
+          <p class="card-desc">
+            Canvasを使用した反射神経トレーニングゲーム。
+            ランダムに出現するターゲットをクリックし、30秒間のスコアを競います。
+          </p>
+          <a href="aim-trainer.html" class="play-btn">Play Game</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-thumb thumb-invader">
+          👾
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Space Invaders</h3>
+          <p class="card-desc">
+            クラシックなシューティングゲームの再現。
+            敵の集団移動アルゴリズムや当たり判定、ゲームループの基礎を実装しました。
+          </p>
+          <a href="invader.html" class="play-btn">Play Game</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
 
   <footer>
-    <p>© 2024 nao's portfolio — Built with simplicity in mind.</p>
+    <p>&copy; 2025 nao's portfolio. All Rights Reserved.</p>
   </footer>
 
 </body>
