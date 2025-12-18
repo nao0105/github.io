@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>エイム練習ソフト</title>
+  <style>
+    body { background: #222; }
+    canvas { display: block; margin: 30px auto; background: #111; }
+    #score { color: #fff; text-align: center; font-size: 24px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div id="score">スコア: 0 / タイム: 30</div>
+  <canvas id="aim" width="600" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('aim');
+    const ctx = canvas.getContext('2d');
+    const scoreDiv = document.getElementById('score');
+
+    let score = 0;
+    let time = 30; // 秒
+    let target = { x: 0, y: 0, r: 25 };
+    let timerId;
+    let timerStarted = false; // タイマー開始フラグ
+
+    function spawnTarget() {
+      target.x = Math.random() * (canvas.width - target.r * 2) + target.r;
+      target.y = Math.random() * (canvas.height - target.r * 2) + target.r;
+    }
+
+    function drawTarget() {
+      ctx.beginPath();
+      ctx.arc(target.x, target.y, target.r, 0, Math.PI * 2);
+      ctx.fillStyle = "red";
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = "white";
+      ctx.stroke();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawTarget();
+    }
+
+    canvas.addEventListener('mousedown', function(e) {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const dist = Math.hypot(mx - target.x, my - target.y);
+      if (dist < target.r) {
+        score++;
+        if (!timerStarted) {
+          timerStarted = true;
+          startTimer();
+        }
+        spawnTarget();
+        draw();
+        updateScore();
+      }
+    });
+
+    function updateScore() {
+      scoreDiv.textContent = `スコア: ${score} / タイム: ${time}`;
+    }
+
+    function startTimer() {
+      timerId = setInterval(() => {
+        time--;
+        updateScore();
+        if (time <= 0) {
+          clearInterval(timerId);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.font = "48px sans-serif";
+          ctx.fillStyle = "white";
+          ctx.textAlign = "center";
+          ctx.fillText(`終了！スコア: ${score}`, canvas.width / 2, canvas.height / 2);
+        }
+      }, 1000);
+    }
+
+    // 初期化（タイマーは開始しない）
+    spawnTarget();
+    draw();
+    updateScore();
+  </script>
+</body>
+</html>
