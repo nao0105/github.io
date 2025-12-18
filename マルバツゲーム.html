@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マルバツゲーム</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    .status {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      min-height: 2rem;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 10px;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .cell:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+    }
+    .cell.x {
+      color: #e94560;
+      text-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
+    }
+    .cell.o {
+      color: #0f3460;
+      text-shadow: 0 0 20px rgba(15, 52, 96, 0.5);
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .cell.win {
+      animation: pulse 0.5s ease-in-out infinite alternate;
+    }
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+    .reset-btn {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+      border: none;
+      border-radius: 50px;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .reset-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+    }
+    .score {
+      display: flex;
+      gap: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    .score-item {
+      text-align: center;
+    }
+    .score-item span {
+      display: block;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    .score-item.x span { color: #e94560; }
+    .score-item.o span { color: #a8d8ea; }
+  </style>
+</head>
+<body>
+  <h1>マルバツゲーム</h1>
+  <div class="score">
+    <div class="score-item x">
+      <span id="score-x">0</span>
+      X
+    </div>
+    <div class="score-item o">
+      <span id="score-o">0</span>
+      O
+    </div>
+  </div>
+  <div class="status" id="status">Xのターン</div>
+  <div class="board" id="board"></div>
+  <button class="reset-btn" id="reset">リセット</button>
+
+  <script>
+    const board = document.getElementById('board');
+    const status = document.getElementById('status');
+    const resetBtn = document.getElementById('reset');
+    const scoreX = document.getElementById('score-x');
+    const scoreO = document.getElementById('score-o');
+
+    let cells = Array(9).fill('');
+    let currentPlayer = 'X';
+    let gameOver = false;
+    let scores = { X: 0, O: 0 };
+
+    const winPatterns = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+
+    function createBoard() {
+      board.innerHTML = '';
+      cells.forEach((cell, index) => {
+        const div = document.createElement('div');
+        div.classList.add('cell');
+        if (cell) div.classList.add(cell.toLowerCase());
+        div.textContent = cell;
+        div.addEventListener('click', () => handleClick(index));
+        board.appendChild(div);
+      });
+    }
+
+    function handleClick(index) {
+      if (cells[index] || gameOver) return;
+      
+      cells[index] = currentPlayer;
+      createBoard();
+      
+      const winner = checkWinner();
+      if (winner) {
+        gameOver = true;
+        status.textContent = `${winner}の勝ち！`;
+        scores[winner]++;
+        updateScore();
+        highlightWinningCells(winner);
+      } else if (cells.every(cell => cell)) {
+        gameOver = true;
+        status.textContent = '引き分け！';
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        status.textContent = `${currentPlayer}のターン`;
+      }
+    }
+
+    function checkWinner() {
+      for (const pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+          return cells[a];
+        }
+      }
+      return null;
+    }
+
+    function highlightWinningCells(winner) {
+      for (const pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        if (cells[a] === winner && cells[b] === winner && cells[c] === winner) {
+          const cellElements = board.querySelectorAll('.cell');
+          cellElements[a].classList.add('win');
+          cellElements[b].classList.add('win');
+          cellElements[c].classList.add('win');
+          break;
+        }
+      }
+    }
+
+    function updateScore() {
+      scoreX.textContent = scores.X;
+      scoreO.textContent = scores.O;
+    }
+
+    function reset() {
+      cells = Array(9).fill('');
+      currentPlayer = 'X';
+      gameOver = false;
+      status.textContent = 'Xのターン';
+      createBoard();
+    }
+
+    resetBtn.addEventListener('click', reset);
+    createBoard();
+  </script>
+</body>
+</html>
