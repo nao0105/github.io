@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Space Invaders</title>
+  <style>
+    body { background: #000; margin: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; }
+    canvas { background: #000; border: 2px solid #333; }
+    #msg { position: absolute; color: white; font-size: 20px; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="msg">クリックでスタート (移動: 矢印キー / 発射: スペース)</div>
+  <canvas id="game"></canvas>
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 480; canvas.height = 320;
+
+    let score = 0, gameActive = false;
+    const player = { x: 220, y: 290, w: 30, h: 20, speed: 5 };
+    let bullets = [], enemies = [], enemyDirection = 1, enemyTimer = 0;
+
+    function initEnemies() {
+      enemies = [];
+      for(let i=0; i<5; i++) {
+        for(let j=0; j<3; j++) {
+          enemies.push({ x: 50 + i*70, y: 30 + j*40, w: 30, h: 20 });
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if(!gameActive) return;
+
+      ctx.fillStyle = "#0f0";
+      ctx.fillRect(player.x, player.y, player.w, player.h);
+
+      ctx.fillStyle = "white";
+      bullets.forEach((b, i) => {
+        b.y -= 7;
+        ctx.fillRect(b.x, b.y, 3, 10);
+        if(b.y < 0) bullets.splice(i, 1);
+      });
+
+      ctx.fillStyle = "red";
+      let shiftDown = false;
+      enemies.forEach((e, i) => {
+        e.x += enemyDirection * 1;
+        if(e.x > canvas.width - e.w || e.x < 0) shiftDown = true;
+        ctx.fillRect(e.x, e.y, e.w, e.h);
+
+        bullets.forEach((b, bi) => {
+          if(b.x < e.x + e.w && b.x + 3 > e.x && b.y < e.y + e.h && b.y + 10 > e.y) {
+            enemies.splice(i, 1);
+            bullets.splice(bi, 1);
+            score += 10;
+          }
+        });
+        if(e.y + e.h > player.y) { gameActive = false; document.getElementById('msg').textContent = "Game Over! Score: " + score; }
+      });
+
+      if(shiftDown) { enemyDirection *= -1; enemies.forEach(e => e.y += 10); }
+      if(enemies.length === 0) { gameActive = false; document.getElementById('msg').textContent = "Clear! Score: " + score; }
+      
+      ctx.fillStyle = "white";
+      ctx.fillText("Score: " + score, 10, 20);
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('keydown', e => {
+      if(e.key === "ArrowLeft" && player.x > 0) player.x -= player.speed;
+      if(e.key === "ArrowRight" && player.x < canvas.width - player.w) player.x += player.speed;
+      if(e.key === " " && gameActive) bullets.push({ x: player.x + player.w/2, y: player.y });
+    });
+
+    canvas.addEventListener('click', () => {
+      if(!gameActive) { score = 0; initEnemies(); gameActive = true; document.getElementById('msg').textContent = ""; draw(); }
+    });
+  </script>
+</body>
+</html>
