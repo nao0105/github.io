@@ -31,11 +31,18 @@
     <!-- About セクション -->
     <section id="about" class="about">
         <div class="container">
-            <h2>About Me</h2>
-            <p>
-                Web開発とクリエイティブなプロジェクトに情熱を持つ開発者です。
-                HTML、CSS、JavaScriptを使用して、ユーザーフレンドリーで美しいWebアプリケーションを作成しています。
-            </p>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="Profile" class="profile-img" id="profileImg">
+                </div>
+                <div class="about-text">
+                    <h2>About Me</h2>
+                    <p>
+                        Web開発とクリエイティブなプロジェクトに情熱を持つ開発者です。
+                        HTML、CSS、JavaScriptを使用して、ユーザーフレンドリーで美しいWebアプリケーションを作成しています。
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -77,5 +84,10 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // プロフィール画像をBase64で設定（ユーザーが後で更新可能）
+        // 画像URLを設定
+        document.getElementById('profileImg').src = 'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&h=400&fit=crop';
+    </script>
 </body>
 </html>
